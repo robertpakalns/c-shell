@@ -2,6 +2,8 @@
 
 A simple tool for killing processes using port. Currently works on Windows only.
 
+Output folder: `dist`
+
 ### Usage
 ```bash
 mkdir build
