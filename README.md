@@ -1,14 +1,21 @@
 # C-Shell
 
-A simple tool for killing processes using port. Currently works on Windows only.
-
-Output folder: `dist`
+A simple tool for managing processes
 
 ### Usage
 ```bash
+# Add the binary file to the PATH environment variable on your PC to use it as "tricko"
+tricko killport <port> # Kills all processes using the specified port
+```
+
+Target: Windows  
+Output folder: `./dist`
+
+### Contribution
+```bash
 mkdir build
 cd build
-cmake ..
+cmake .. # Make sure CMake and a C compiler are installed
 cmake --build . --config Release
 ```
 
