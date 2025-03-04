@@ -4,17 +4,17 @@
 
 void killport(const char *port)
 {
-    char command[256];
+    char command[64];
     snprintf(command, sizeof(command), "netstat -ano | findstr :%s", port);
 
     FILE *fp = _popen(command, "r");
     if (fp == NULL)
     {
-        printf("Error executing netstat command.\n");
+        printf("An error occured while executing netstat command.\n");
         return;
     }
 
-    int pids[100]; // Assume that there are less than 100 PIDs
+    int pids[64]; // Assume that there are less than 64 PIDs
     int pid_count = 0;
     char line[256];
 
@@ -23,11 +23,11 @@ void killport(const char *port)
         char *pid_str = strrchr(line, ' ');
 
         if (!pid_str)
-            return;
+            continue;
 
         int pid = atoi(pid_str + 1);
         if (!(pid > 0))
-            return;
+            continue;
 
         int already_exists = 0;
         for (int i = 0; i < pid_count; i++)
@@ -43,11 +43,17 @@ void killport(const char *port)
     }
     _pclose(fp);
 
+    if (pid_count == 0)
+    {
+        printf("No processes found on port %s.\n", port);
+        return;
+    }
+
     for (int i = 0; i < pid_count; i++)
     {
-        snprintf(command, sizeof(command), "taskkill /PID %d /F", pids[i]);
+        snprintf(command, sizeof(command), "taskkill /PID %d /F > nul 2>&1", pids[i]);
         system(command);
-        printf("Process with PID %d terminated.\n", pids[i]);
+        printf("Process with PID %d has been terminated.\n", pids[i]);
     }
 }
 
