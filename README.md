@@ -5,6 +5,8 @@ A simple tool for managing processes
 ### Usage
 ```bash
 # Add the binary file to the PATH environment variable on your PC to use it as "tricko"
+tricko # Outputs nothing special
+tricko list # Outputs all available commands
 tricko killport <port> # Kills all processes using the specified port
 ```
 

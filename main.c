@@ -65,6 +65,18 @@ int main(int argc, char *argv[])
         return 0;
     }
 
-    printf("Usage: %s killport <port>\n", argv[0]);
-    return 1;
+    if (argc == 2 && strcmp(argv[1], "killport") == 0)
+    {
+        printf("Usage: %s killport <port>\n", argv[0]);
+        return 0;
+    }
+
+    if (argc == 2 && strcmp(argv[1], "list") == 0)
+    {
+        printf("List of commands:\n%s killport <port>\n", argv[0]);
+        return 0;
+    }
+
+    printf("Hello! Tricko is here.\n");
+    return 0;
 }
