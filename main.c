@@ -14,7 +14,7 @@ void killport(const char *port)
         return;
     }
 
-    int pids[64]; // Assume that there are less than 64 PIDs
+    int pids[64]; // Assume that there 64 and less target PIDs
     int pid_count = 0;
     char line[256];
 
@@ -77,6 +77,6 @@ int main(int argc, char *argv[])
         return 0;
     }
 
-    printf("Hello! Tricko is here.\n");
+    printf("Hello! Tricko is here. Type\n%s list\nfor more information.\n", argv[0]);
     return 0;
 }
