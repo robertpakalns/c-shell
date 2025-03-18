@@ -12,13 +12,12 @@ tricko killport <port> # Kills all processes using the specified port
 
 ### Contribution
 ```bash
- # Make sure CMake and a C compiler are installed
+# Make sure CMake and a C compiler are installed
 mkdir build
 cd build
 cmake ..
-cmake --build . --config Release
+cmake --build . --config Release # Output: ./dist
 ```
-Target: `Windows`  
-Output folder: `./dist`
+Target: `Windows`
 
 by robertpakalns | [Community Server](https://discord.gg/yPjrUrvSzv) | Powered by Tricko

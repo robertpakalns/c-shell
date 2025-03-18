@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-void killport(const char *port)
+void killport(char *port)
 {
     char command[64];
     snprintf(command, sizeof(command), "netstat -ano | findstr :%s", port);
@@ -14,7 +14,7 @@ void killport(const char *port)
         return;
     }
 
-    int pids[64]; // Assume that there 64 and less target PIDs
+    int pids[64]; // Assume that there are 64 or less target PIDs
     int pid_count = 0;
     char line[256];
 
@@ -51,9 +51,30 @@ void killport(const char *port)
 
     for (int i = 0; i < pid_count; i++)
     {
-        snprintf(command, sizeof(command), "taskkill /PID %d /F > nul 2>&1", pids[i]);
-        system(command);
-        printf("Process with PID %d has been terminated.\n", pids[i]);
+        snprintf(command, sizeof(command), "taskkill /PID %d /F", pids[i]);
+
+        FILE *taskkill_fp = _popen(command, "r");
+        if (taskkill_fp == NULL)
+        {
+            printf("An error occurred while executing taskkill command.\n");
+            continue;
+        }
+
+        char output[256];
+
+        if (fgets(output, sizeof(output), taskkill_fp) == NULL)
+        {
+            printf("No output received from taskkill for PID %d.\n", pids[i]);
+            _pclose(taskkill_fp);
+            continue;
+        }
+
+        if (strncmp(output, "SUCCESS", 6) == 0)
+            printf("Process with PID %d has been terminated.\n", pids[i]);
+        else
+            printf("Failed to terminate process with PID %d.\n", pids[i]);
+
+        _pclose(taskkill_fp);
     }
 }
 
